@@ -13,11 +13,11 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @RequestMapping("/getNewBooks")
-    public ModelAndView getNewBooks() {
-        int pageNo = 1;
-        int pageSize = 10;
-        PageResult pageResult = eventService.getNewEvents(pageNo, pageSize);
+    @RequestMapping("/getNewEvents")
+    public ModelAndView getNewEvents() {
+        int pageNum = 1;
+        int pageSize = 5;
+        PageResult pageResult = eventService.getNewEvents(pageNum, pageSize);
         System.out.println(pageResult.getRows());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("events_new.jsp");

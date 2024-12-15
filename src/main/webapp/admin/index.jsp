@@ -23,7 +23,7 @@
     </div>
 
     <div id="content">
-        <iframe width="100%" id="iframe" name="iframe" src="${pageContext.request.contextPath}/event/getNewBooks"></iframe>
+        <iframe height="600px" width="100%"  id="iframe" name="iframe" src="${pageContext.request.contextPath}/event/getNewEvents"></iframe>
     </div>
 </body>
 </html>

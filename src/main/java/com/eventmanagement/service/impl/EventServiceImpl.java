@@ -18,13 +18,14 @@ public class EventServiceImpl implements EventService {
 
     /**
      * 根据当前页码和每页需要展示的数据条数，查询最新上架的图书信息
-     * @param pageNo 当前页码
+     * @param pageNum 当前页码
      * @param pageSize 每页显示数量
      */
     @Override
-    public PageResult getNewEvents(Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        Page<Event> page = eventMapper.selectNewBooks();
+    public PageResult getNewEvents(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Event> page = eventMapper.getNewEvents();
+        System.out.println(page.getResult());
         return new PageResult(page.getTotal(), page.getResult());
     }
 }
