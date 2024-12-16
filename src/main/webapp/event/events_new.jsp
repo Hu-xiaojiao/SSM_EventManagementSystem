@@ -10,52 +10,59 @@
 <html>
 <head>
     <title>最新活动</title>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/themes/icon.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
 </head>
-<body>
 
-<div class="box">
-    <table id="dataList" border="1">
-        <thead>
-            <tr>
-                <th>活动名称</th>
-                <th>详情</th>
-                <th>开始日期</th>
-                <th>结束日期</th>
-                <th>地点</th>
-                <th>组织人</th>
-                <th>更新时间</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${pageResult.rows}" var="event">
+<body style="margin: 0">
+    <div class="box">
+        <table id="dg" title="最新活动">
+            <thead>
                 <tr>
-                    <td>${event.eventName}</td>
-                    <td>${event.eventDescription}</td>
-                    <td>${event.eventStartDate}</td>
-                    <td>${event.eventEndDate}</td>
-                    <td>${event.location}</td>
-                    <td>${event.organizerId}</td>
-                    <td>${event.createdAt}</td>
-                    <td>
-                        <c:if test="${event.status == 'Approved'}">
-                            <button>去参加</button>
-                        </c:if>
-                        <c:if test="${event.status == 'Pending'}">
-                            <button disabled>待确定</button>
-                        </c:if>
-                        <c:if test="${event.status == 'Rejected'}">
-                            <button disabled>已拒绝</button>
-                        </c:if>
-                        <c:if test="${event.status == 'Completed'}">
-                            <button disabled>已结束</button>
-                        </c:if>
-                    </td>
+                    <th field="1">活动名称</th>
+                    <th field="2">详情</th>
+                    <th field="3">开始日期</th>
+                    <th field="4">结束日期</th>
+                    <th field="5">地点</th>
+                    <th field="7">更新时间</th>
+                    <th field="8">操作</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-</div>
-
+            </thead>
+            <tbody>
+                <c:forEach items="${pageResult.rows}" var="event">
+                    <tr>
+                        <td>${event.eventName}</td>
+                        <td>${event.eventDescription}</td>
+                        <td>${event.eventStartDate}</td>
+                        <td>${event.eventEndDate}</td>
+                        <td>${event.location}</td>
+                        <td>${event.createdAt}</td>
+                        <c:if test="${USER_SESSION.role == 'Admin'}">
+                            <td><button>修改</button></td>
+                        </c:if>
+                        <c:if test="${USER_SESSION.role != 'Admin'}">
+                            <td><button>去参加</button></td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </body>
+
+<script>
+    //datagrid初始化
+    $('#dg').datagrid({
+        iconCls:'icon-edit',//图标
+        nowrap: true,
+        striped: true,
+        border: true,
+        collapsible:false,//是否可折叠的
+        remoteSort:false,
+        idField:'fldId',
+        singleSelect:true,//是否单选
+    });
+</script>
 </html>

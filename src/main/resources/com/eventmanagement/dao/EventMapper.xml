@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eventmanagement.dao.EventMapper">
     <select id="getNewEvents" resultType="com.eventmanagement.domain.Event">
-        select * from Events where Status != 'Completed' order by CreatedAt DESC
+        select * from Events where Status != 'Completed' order by EventStartDate desc
     </select>
 
     <select id="search" parameterType="com.eventmanagement.domain.Event" resultType="com.eventmanagement.domain.Event">
@@ -13,6 +13,6 @@
             <if test="eventName != null">AND eventName like CONCAT('%',#{eventName},'%')</if>
             <if test="location != null">AND location like CONCAT('%',#{location},'%')</if>
         </where>
-        order by CreatedAt DESC
+        order by EventStartDate desc
     </select>
 </mapper>

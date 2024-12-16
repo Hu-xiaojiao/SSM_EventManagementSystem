@@ -5,11 +5,11 @@ public class Event {
 
   private int eventId;
   private String eventName;
+
   private String eventDescription;
   private java.sql.Timestamp eventStartDate;
   private java.sql.Timestamp eventEndDate;
   private String location;
-  private int organizerId;
   private String status;
   private java.sql.Timestamp createdAt;
   private java.sql.Timestamp updatedAt;
@@ -66,15 +66,6 @@ public class Event {
 
   public void setLocation(String location) {
     this.location = location;
-  }
-
-
-  public long getOrganizerId() {
-    return organizerId;
-  }
-
-  public void setOrganizerId(int organizerId) {
-    this.organizerId = organizerId;
   }
 
 
