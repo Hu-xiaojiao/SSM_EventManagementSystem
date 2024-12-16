@@ -3,13 +3,13 @@ package com.eventmanagement.domain;
 
 public class User {
 
-  private long userId;
+  private int userId;
   private String name;
   private String email;
   private String password;
   private String role;
   private java.sql.Timestamp createdAt;
-  private long status;
+  private int status;
   private java.sql.Timestamp updatedAt;
 
 
@@ -17,7 +17,7 @@ public class User {
     return userId;
   }
 
-  public void setUserId(long userId) {
+  public void setUserId(int userId) {
     this.userId = userId;
   }
 
@@ -71,7 +71,7 @@ public class User {
     return status;
   }
 
-  public void setStatus(long status) {
+  public void setStatus(int status) {
     this.status = status;
   }
 

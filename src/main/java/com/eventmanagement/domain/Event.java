@@ -3,13 +3,13 @@ package com.eventmanagement.domain;
 
 public class Event {
 
-  private long eventId;
+  private int eventId;
   private String eventName;
   private String eventDescription;
   private java.sql.Timestamp eventStartDate;
   private java.sql.Timestamp eventEndDate;
   private String location;
-  private long organizerId;
+  private int organizerId;
   private String status;
   private java.sql.Timestamp createdAt;
   private java.sql.Timestamp updatedAt;
@@ -19,7 +19,7 @@ public class Event {
     return eventId;
   }
 
-  public void setEventId(long eventId) {
+  public void setEventId(int eventId) {
     this.eventId = eventId;
   }
 
@@ -73,7 +73,7 @@ public class Event {
     return organizerId;
   }
 
-  public void setOrganizerId(long organizerId) {
+  public void setOrganizerId(int organizerId) {
     this.organizerId = organizerId;
   }
 

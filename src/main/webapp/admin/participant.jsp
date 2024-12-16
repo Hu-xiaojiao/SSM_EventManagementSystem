@@ -20,8 +20,8 @@
     <div id="menu">
         <a href="${pageContext.request.contextPath}/admin/participant.jsp">首页</a>
         <a href="${pageContext.request.contextPath}/event/search" target="iframe">全部活动</a>
-        <a href="${pageContext.request.contextPath}/admin/approve" target="iframe">全部审批</a>
-        <a href="${pageContext.request.contextPath}/admin/account" target="iframe">个人信息</a>
+        <a href="${pageContext.request.contextPath}/admin/enroll" target="iframe">我的报名</a>
+        <a href="${pageContext.request.contextPath}/user/info" target="iframe">个人信息</a>
     </div>
 
     <div id="content">

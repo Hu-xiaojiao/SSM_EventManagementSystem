@@ -11,146 +11,140 @@
 <head>
     <title>最新活动</title>
     <script src="${pageContext.request.contextPath}/js/pagination.js"></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/themes/icon.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
 </head>
 <body>
-
-<div class="box">
-    <div class="box-tools pull-right">
-        <div class="has-feedback">
-            <c:if test="${USER_SESSION.role == 'Admin'}">
-                <button>新增</button>
-            </c:if>
-            <form action="${pageContext.request.contextPath}/event/search" method="post" accept-charset="UTF-8">
-                <label>活动名称：<input name="eventName" value="${search.eventName}"></label>
-                <label>地点：<input name="location" value="${search.location}"></label>
-                <input class="btn btn-default" type="submit" value="查询">
-            </form>
-        </div>
-    </div>
-    <table id="dataList" border="1">
-        <thead>
-            <tr>
-                <th>活动名称</th>
-                <th>详情</th>
-                <th>开始日期</th>
-                <th>结束日期</th>
-                <th>地点</th>
-                <th>组织人</th>
-                <th>更新时间</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${pageResult.rows}" var="event">
+    <div class="box">
+        <table id="dg" title="活动列表">
+            <thead>
                 <tr>
-                    <td>${event.eventName}</td>
-                    <td>${event.eventDescription}</td>
-                    <td>${event.eventStartDate}</td>
-                    <td>${event.eventEndDate}</td>
-                    <td>${event.location}</td>
-                    <td>${event.organizerId}</td>
-                    <td>${event.createdAt}</td>
-                    <c:if test="${USER_SESSION.role == 'Admin'}">
-                        <td>
-                            <c:if test="${event.status == 'Approved'}">
-                                <button>去参加</button>
-                            </c:if>
-                            <c:if test="${event.status == 'Pending'}">
-                                <button>去审批</button>
-                            </c:if>
-                            <c:if test="${event.status == 'Rejected'}">
-                                <button>未通过</button>
-                            </c:if>
-                            <c:if test="${event.status == 'Completed'}">
-                                <button disabled>已结束</button>
-                            </c:if>
-                        </td>
-                    </c:if>
-                    <c:if test="${USER_SESSION.role != 'Admin'}">
-                        <td>
-                            <c:if test="${event.status == 'Approved'}">
-                                <button>去参加</button>
-                            </c:if>
-                            <c:if test="${event.status == 'Pending'}">
-                                <button disabled>未审批</button>
-                            </c:if>
-                            <c:if test="${event.status == 'Rejected'}">
-                                <button disabled>未通过</button>
-                            </c:if>
-                            <c:if test="${event.status == 'Completed'}">
-                                <button disabled>已结束</button>
-                            </c:if>
-                        </td>
-                    </c:if>
+                    <th field="1">活动名称</th>
+                    <th field="2">详情</th>
+                    <th field="3">开始日期</th>
+                    <th field="4">结束日期</th>
+                    <th field="5">地点</th>
+                    <th field="6">组织人</th>
+                    <th field="7">更新时间</th>
+                    <th field="8">操作</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    <div id="pagination" class="pagination"></div>
-</div>
-
-<!-- 添加和编辑图书的模态窗口 -->
-<dialog style="visibility: visible; display: block" class="modal fade" id="addOrEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="myModalLabel">活动信息</h3>
-            </div>
-            <div class="modal-body">
-                <form id="addOrEditBook">
-                    <span><input type="hidden" id="ebid" name="id"></span>
-                    <table id="addOrEditTab" class="table table-bordered table-striped" width="800px">
-                        <%--图书的id,不展示在页面--%>
-                        <tr>
-                            <td>活动名称</td>
-                            <td><input class="form-control" placeholder="活动名称" name="eventName"></td>
-                            <td>组织人</td>
-                            <td><input class="form-control" placeholder="组织人" name="orgorganizerId" ></td>
-                        </tr>
-                        <tr>
-                            <td>开始时间</td>
-                            <td><input class="form-control" name="eventStartDate" type="date"></td>
-                            <td>结束时间</td>
-                            <td><input class="form-control" name="eventEndDate" type="date"></td>
-                        </tr>
-                        <tr>
-                            <td>地点</td>
-                            <td><input class="form-control" placeholder="活动地点" name="location"></td>
-                            <td>状态</td>
+            </thead>
+            <tbody>
+                <c:forEach items="${pageResult.rows}" var="event">
+                    <tr>
+                        <td>${event.eventName}</td>
+                        <td>${event.eventDescription}</td>
+                        <td>${event.eventStartDate}</td>
+                        <td>${event.eventEndDate}</td>
+                        <td>${event.location}</td>
+                        <td>${event.organizerId}</td>
+                        <td>${event.createdAt}</td>
+                        <c:if test="${USER_SESSION.role == 'Admin'}">
                             <td>
-                                <select class="form-control" name="status" >
-                                    <option value="0">未审批</option>
-                                    <option value="1">已通过</option>
-                                    <option value="2">未通过</option>
-                                    <option value="3">已结束</option>
-                                </select>
+                                <c:if test="${event.status == 'Approved'}">
+                                    <button>去参加</button>
+                                </c:if>
+                                <c:if test="${event.status == 'Pending'}">
+                                    <button>去审批</button>
+                                </c:if>
+                                <c:if test="${event.status == 'Rejected'}">
+                                    <button>未通过</button>
+                                </c:if>
+                                <c:if test="${event.status == 'Completed'}">
+                                    <button disabled>已结束</button>
+                                </c:if>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>详细信息</td>
-                            <td colspan="3"><textarea></textarea></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="addOrEdit()">提交
-                </button>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-            </div>
-        </div>
+                        </c:if>
+                        <c:if test="${USER_SESSION.role != 'Admin'}">
+                            <td>
+                                <c:if test="${event.status == 'Approved'}">
+                                    <button>去参加</button>
+                                </c:if>
+                                <c:if test="${event.status == 'Pending'}">
+                                    <button disabled>未审批</button>
+                                </c:if>
+                                <c:if test="${event.status == 'Rejected'}">
+                                    <button disabled>未通过</button>
+                                </c:if>
+                                <c:if test="${event.status == 'Completed'}">
+                                    <button disabled>已结束</button>
+                                </c:if>
+                            </td>
+                        </c:if>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
     </div>
-</dialog>
-
 </body>
 
 <script>
-    pageargs.total = Math.ceil(${pageResult.total}/pageargs.pagesize);
-    pageargs.cur = ${pageNum}
-        /*分页插件页码变化时将跳转到的服务器端的路径*/
-    pageargs.gourl = "${gourl}"
-    pagination(pageargs)
+    //datagrid初始化
+    $('#dg').datagrid({
+        title:'应用系统列表',
+        iconCls:'icon-edit',//图标
+        nowrap: true,
+        striped: true,
+        border: true,
+        collapsible:false,//是否可折叠的
+        remoteSort:false,
+        idField:'fldId',
+        singleSelect:false,//是否单选
+        pagination:true,//分页控件
+        rownumbers:true,//行号
+        toolbar: [{
+            text: '添加',
+            iconCls: 'icon-add',
+            handler: function() {
+                openDialog("add_dialog","add");
+            }
+        }, '-', {
+            text: '修改',
+            iconCls: 'icon-edit',
+            handler: function() {
+                openDialog("add_dialog","edit");
+            }
+        }, '-',{
+            text: '删除',
+            iconCls: 'icon-remove',
+            handler: function(){
+                delAppInfo();
+            }
+        }],
+    });
+    function StandardPost(url, args) {
+        var form = $("<form method='post'></form>");
+        form.attr({"action": url});
+        for (var arg in args) {
+            var input = $("<input type='hidden'>");
+            input.attr({"name": arg});
+            input.val(args[arg]);
+            form.append(input);
+        }
+        form.appendTo("body").submit();  // 将表单添加到 body 中并提交，确保表单能正确提交
+    }
+
+    // 设置分页控件
+    var p = $('#dg').datagrid('getPager');
+    $(p).pagination({
+        total: ${pageResult.total},
+        pageSize: 10, // 每页显示的记录条数，默认为10
+        pageList: [5, 10, 15], // 可以设置每页记录条数的列表
+        beforePageText: '第', // 页数文本框前显示的汉字
+        afterPageText: '页    共 {pages} 页',
+        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录',
+        onSelectPage: function(pageNumber, pageSize) {
+            $(this).pagination('loading'); // 显示加载状态
+            // 调用 StandardPost 函数，传递 URL 和参数
+            StandardPost('search', { // 假设你的搜索页面是 search.php
+                pageNum: pageNumber,
+                pageSize: pageSize
+            });
+            $(this).pagination('loaded'); // 隐藏加载状态
+        }
+    });
 </script>
 
 </html>

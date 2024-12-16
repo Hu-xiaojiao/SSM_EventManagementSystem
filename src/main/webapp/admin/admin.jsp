@@ -21,7 +21,7 @@
   <a href="${pageContext.request.contextPath}/admin/admin.jsp">首页</a>
   <a href="${pageContext.request.contextPath}/event/search" target="iframe">全部活动</a>
   <a href="${pageContext.request.contextPath}/admin/approve" target="iframe">全部审批</a>
-  <a href="${pageContext.request.contextPath}/admin/account" target="iframe">用户管理</a>
+  <a href="${pageContext.request.contextPath}/admin/info" target="iframe">用户管理</a>
 </div>
 
 <div id="content">

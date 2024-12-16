@@ -5,6 +5,7 @@ import com.eventmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -59,5 +60,13 @@ public class UserController {
             request.setAttribute("msg", "系统错误");
             return "forward:/admin/login.jsp";
         }
+    }
+
+    @RequestMapping("/info")
+    public ModelAndView info(User user) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("forward:/admin/info.jsp");
+        return modelAndView;
     }
 }
