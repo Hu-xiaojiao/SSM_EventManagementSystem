@@ -7,4 +7,6 @@ public interface EventService {
     PageResult getNewEvents(Integer pageNum, Integer pageSize);
 
     PageResult search(Event event, Integer pageNum, Integer pageSize);
+
+    Integer addEvent(Event event);
 }

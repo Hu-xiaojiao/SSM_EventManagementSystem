@@ -10,6 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Service
 @Transactional
 public class EventServiceImpl implements EventService {
@@ -33,5 +38,12 @@ public class EventServiceImpl implements EventService {
         PageHelper.startPage(pageNum, pageSize);
         Page<Event> page = eventMapper.search(event);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    public Integer addEvent(Event event) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        event.setUpdatedAt(Timestamp.valueOf(dateFormat.format(new Date())));
+        event.setCreatedAt(Timestamp.valueOf(dateFormat.format(new Date())));
+        return eventMapper.addEvent(event);
     }
 }

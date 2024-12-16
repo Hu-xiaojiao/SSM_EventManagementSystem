@@ -7,4 +7,6 @@ public interface EventMapper {
     Page<Event> getNewEvents();
 
     Page<Event> search(Event event);
+
+    Integer addEvent(Event event);
 }

@@ -15,4 +15,9 @@
         </where>
         order by EventStartDate desc
     </select>
+
+    <insert id="addEvent" parameterType="com.eventmanagement.domain.Event">
+        insert into Events(EventID, EventName, EventDescription, EventStartDate, EventEndDate, Location, Status, CreatedAt, UpdatedAt)
+        VALUES (#{eventId}, #{eventName}, #{eventDescription}, #{eventStartDate}, #{eventEndDate}, #{location}, #{status}, #{createdAt}, #{updatedAt})
+    </insert>
 </mapper>
