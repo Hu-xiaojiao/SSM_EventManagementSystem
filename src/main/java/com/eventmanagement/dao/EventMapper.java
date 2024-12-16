@@ -5,4 +5,6 @@ import com.github.pagehelper.Page;
 
 public interface EventMapper {
     Page<Event> getNewEvents();
+
+    Page<Event> search(Event event);
 }

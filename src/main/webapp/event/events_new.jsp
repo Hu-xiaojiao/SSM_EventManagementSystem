@@ -24,6 +24,7 @@
                 <th>地点</th>
                 <th>组织人</th>
                 <th>更新时间</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,20 @@
                     <td>${event.location}</td>
                     <td>${event.organizerId}</td>
                     <td>${event.createdAt}</td>
+                    <td>
+                        <c:if test="${event.status == 'Approved'}">
+                            <button>去参加</button>
+                        </c:if>
+                        <c:if test="${event.status == 'Pending'}">
+                            <button disabled>待确定</button>
+                        </c:if>
+                        <c:if test="${event.status == 'Rejected'}">
+                            <button disabled>已拒绝</button>
+                        </c:if>
+                        <c:if test="${event.status == 'Completed'}">
+                            <button disabled>已结束</button>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>

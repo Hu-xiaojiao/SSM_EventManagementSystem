@@ -6,4 +6,13 @@
     <select id="getNewEvents" resultType="com.eventmanagement.domain.Event">
         select * from Events where Status != 'Completed' order by CreatedAt DESC
     </select>
+
+    <select id="search" parameterType="com.eventmanagement.domain.Event" resultType="com.eventmanagement.domain.Event">
+        select * from Events
+        <where>
+            <if test="eventName != null">AND eventName like CONCAT('%',#{eventName},'%')</if>
+            <if test="location != null">AND location like CONCAT('%',#{location},'%')</if>
+        </where>
+        order by CreatedAt DESC
+    </select>
 </mapper>

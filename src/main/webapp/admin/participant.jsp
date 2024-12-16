@@ -12,14 +12,16 @@
 </head>
 <body>
     <div id="header">
+        您好，${USER_SESSION.name}
+        身份：${USER_SESSION.role}
         <a href="${pageContext.request.contextPath}/user/logout">注销</a>
     </div>
 
     <div id="menu">
-        <a href="${pageContext.request.contextPath}/admin/index.jsp">首页</a>
-        <a href="${pageContext.request.contextPath}/admin/activity">全部活动</a>
-        <a href="${pageContext.request.contextPath}/admin/approve">全部审批</a>
-        <a href="${pageContext.request.contextPath}/admin/account">用户管理</a>
+        <a href="${pageContext.request.contextPath}/admin/participant.jsp">首页</a>
+        <a href="${pageContext.request.contextPath}/event/search" target="iframe">全部活动</a>
+        <a href="${pageContext.request.contextPath}/admin/approve" target="iframe">全部审批</a>
+        <a href="${pageContext.request.contextPath}/admin/account" target="iframe">个人信息</a>
     </div>
 
     <div id="content">

@@ -18,7 +18,6 @@ public class UserController {
     @RequestMapping("/login")
     public String login(User user, HttpServletRequest request) {
         try {
-            System.out.println(user.getName() + user.getPassword());
             User u = userService.login(user);
             /*
             用户账号和密码是否查询出用户信息
@@ -28,10 +27,11 @@ public class UserController {
             if (u != null) {
                 request.getSession().setAttribute("USER_SESSION", u);
                 String role = u.getRole();
-                if ("ADMIN".equals(role)) {
-                    return "redirect:/admin/main.jsp";
+                System.out.println(role);
+                if ("Admin".equals(role)) {
+                    return "redirect:/admin/admin.jsp";
                 } else {
-                    return "redirect:/admin/index.jsp";
+                    return "redirect:/admin/participant.jsp";
                 }
 
             }

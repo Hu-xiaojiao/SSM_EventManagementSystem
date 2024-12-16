@@ -25,7 +25,13 @@ public class EventServiceImpl implements EventService {
     public PageResult getNewEvents(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Page<Event> page = eventMapper.getNewEvents();
-        System.out.println(page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public PageResult search(Event event, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Event> page = eventMapper.search(event);
         return new PageResult(page.getTotal(), page.getResult());
     }
 }

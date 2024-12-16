@@ -134,6 +134,7 @@
                     <port>8080</port>
                     <path>/</path>
                     <ignorePackaging>true</ignorePackaging>
+                    <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>
         </plugins>

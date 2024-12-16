@@ -19,6 +19,5 @@ public class UserLoginTest {
         adminUser.setName("superadmin");
         adminUser.setPassword("123456");
         User user = userService.login(adminUser);
-        System.out.println(user.getUserId());
     }
 }
