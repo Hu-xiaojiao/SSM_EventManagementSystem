@@ -1,9 +1,10 @@
 package com.eventmanagement.controller;
 
-import com.eventmanagement.domain.Event;
+import com.eventmanagement.domain.Attend;
 import com.eventmanagement.entity.PageResult;
-import com.eventmanagement.service.EventService;
+import com.eventmanagement.service.AttendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,44 +14,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/event")
-public class EventController {
+@RequestMapping("/attend")
+public class AttendController {
     @Autowired
-    private EventService eventService;
-
-    @RequestMapping("/getNewEvents")
-    public ModelAndView getNewEvents() {
-        int pageNum = 1;
-        int pageSize = 5;
-        PageResult pageResult = eventService.getNewEvents(pageNum, pageSize);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("events_new.jsp");
-        modelAndView.addObject("pageResult", pageResult);
-        return modelAndView;
-    }
+    private AttendService attendService;
 
     @RequestMapping("/search")
-    public ModelAndView search(Event event, Integer pageNum, Integer pageSize, HttpServletRequest request) {
+    public ModelAndView search(Attend attend, Integer pageNum, Integer pageSize, HttpServletRequest request) {
         if (pageNum == null) {
             pageNum = 1;
         }
         if (pageSize == null) {
             pageSize = 10;
         }
-        //查询到的图书信息
-        PageResult pageResult = eventService.search(event, pageNum, pageSize);
+        PageResult pageResult = attendService.search(attend, pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("events.jsp");
+        modelAndView.setViewName("attends.jsp");
         //将查询到的数据存放在 ModelAndView的对象中
         modelAndView.addObject("pageResult", pageResult);
         System.out.println(pageResult.getRows());
         //将查询的参数返回到页面，用于回显到查询的输入框中
-        modelAndView.addObject("search", event);
+        modelAndView.addObject("search", attend);
         //将当前页码返回到页面，用于分页插件的分页显示
         modelAndView.addObject("pageNum", pageNum);
         //将当前查询的控制器路径返回到页面，页码变化时继续向该路径发送请求
@@ -59,22 +47,21 @@ public class EventController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> addEvent(String eventName, String location, String eventStartDate, String eventEndDate, String state, String eventDescription) {
+    @RequestMapping(value = "/addattend", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> addAttend(String eventId, String userId) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Event event = new Event();
-            event.setEventName(eventName);
-            event.setLocation(location);
-            event.setEventStartDate(Timestamp.valueOf(formatTimeStamp(eventStartDate)));
-            event.setEventEndDate(Timestamp.valueOf(formatTimeStamp(eventEndDate)));
-            event.setStatus(state);
-            event.setEventDescription(eventDescription);
-            eventService.addEvent(event);
+            attendService.addAttend(eventId, userId);
 
             response.put("success", true);
             return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (DuplicateKeyException e) {
+            // 处理重复键异常，例如记录日志或返回特定信息
+            response.put("success", false);
+            response.put("errorMsg", "您已报名该活动");
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             response.put("errorMsg", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -99,14 +86,14 @@ public class EventController {
     }
 
     @ResponseBody
-    @RequestMapping("/findeventbyeventid")
-    public ResponseEntity<Map<String, Object>> findeventbyeventid(String eventId) {
+    @RequestMapping("/findattendbyattendid")
+    public ResponseEntity<Map<String, Object>> findAttendbyAttendid(String attendId) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Event event = eventService.findEventByEventId(eventId);
+            Attend attend = attendService.findAttendByAttendId(attendId);
 
             response.put("success", true);
-            response.put("event", event);
+            response.put("Attend", attend);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e) {
             response.put("errorMsg", e.getMessage());
@@ -115,20 +102,21 @@ public class EventController {
     }
 
     @ResponseBody
-    @RequestMapping("/updateevent")
-    public ResponseEntity<Map<String, Object>> updateEvent(Event event) {
+    @RequestMapping("/updateattend")
+    public ResponseEntity<Map<String, Object>> updateAttend(Attend Attend) {
         Map<String, Object> response = new HashMap<>();
         try {
-            eventService.updateEvent(event);
+            attendService.updateAttend(Attend);
 
             response.put("success", true);
-            response.put("event", event);
+            response.put("Attend", Attend);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (Exception e) {
+            response.put("success", false);
             response.put("errorMsg", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+
     }
-
-
 }

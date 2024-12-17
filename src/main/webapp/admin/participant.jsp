@@ -30,7 +30,7 @@
                 <a href="${pageContext.request.contextPath}/event/search" target="iframe">全部活动</a>
             </li>
             <li>
-                <a href="${pageContext.request.contextPath}/event/enroll" target="iframe">我的报名</a>
+                <a href="${pageContext.request.contextPath}/attend/enroll" target="iframe">我的报名</a>
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/user/info" target="iframe">个人信息</a>

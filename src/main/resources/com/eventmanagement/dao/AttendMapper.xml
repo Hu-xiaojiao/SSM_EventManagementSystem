@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eventmanagement.dao.AttendMapper">
+
+    <select id="search" parameterType="com.eventmanagement.domain.Attend" resultType="com.eventmanagement.domain.Attend">
+        select a.attendId, a.eventid, a.userid,a.attendstatus,a.createdat,a.updatedat, e.eventname,u.name
+        from attends a
+        join events e on e.EventID = a.EventID
+        join users u on u.UserID = a.UserID
+    </select>
+
+    <select id="findAttendByAttendId" parameterType="String" resultType="com.eventmanagement.domain.Attend">
+        select * from Attends where AttendID = #{attendId}
+    </select>
+
+    <insert id="addAttend" parameterType="String">
+        insert into Attends(EventID, UserID)
+        VALUES (#{param1}, #{param2})
+    </insert>
+
+    <update id="updateAttend" parameterType="com.eventmanagement.domain.Attend">
+        update Attends
+        <trim prefix="set" suffixOverrides=",">
+            <if test="attendStatus != null" >
+                AttendStatus = #{attendStatus},
+            </if>
+        </trim>
+        where AttendId = #{attendId}
+    </update>
+</mapper>

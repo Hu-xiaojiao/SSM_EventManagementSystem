@@ -23,13 +23,13 @@
 <div data-options="region:'west',title:'菜单',split:true" style="width:180px;">
   <ul id="menu" class="easyui-tree" style="margin-top: 10px;margin-left: 5px;">
     <li>
-      <a href="${pageContext.request.contextPath}/admin/participant.jsp">首页</a>
+      <a href="${pageContext.request.contextPath}/admin/admin.jsp">首页</a>
     </li>
     <li>
       <a href="${pageContext.request.contextPath}/event/search" target="iframe">全部活动</a>
     </li>
     <li>
-      <a href="${pageContext.request.contextPath}/approve/approve" target="iframe">全部审批</a>
+      <a href="${pageContext.request.contextPath}/attend/search" target="iframe">全部报名</a>
     </li>
     <li>
       <a href="${pageContext.request.contextPath}/user/info" target="iframe">个人信息</a>

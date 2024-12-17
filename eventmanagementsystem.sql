@@ -11,29 +11,37 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 16/12/2024 23:22:29
+ Date: 17/12/2024 23:44:09
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for eventparticipants
+-- Table structure for attends
 -- ----------------------------
-DROP TABLE IF EXISTS `eventparticipants`;
-CREATE TABLE `eventparticipants`  (
-  `ParticipantID` int(0) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `attends`;
+CREATE TABLE `attends`  (
+  `AttendID` int(0) NOT NULL AUTO_INCREMENT,
   `EventID` int(0) NOT NULL,
   `UserID` int(0) NOT NULL,
-  `ParticipationStatus` enum('Confirmed','Pending','Declined') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'Pending',
+  `AttendStatus` enum('Confirmed','Pending','Declined') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT 'Pending',
   `CreatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
-  PRIMARY KEY (`ParticipantID`) USING BTREE,
+  PRIMARY KEY (`AttendID`) USING BTREE,
   INDEX `EventID`(`EventID`) USING BTREE,
   INDEX `UserID`(`UserID`) USING BTREE,
-  CONSTRAINT `eventparticipants_ibfk_1` FOREIGN KEY (`EventID`) REFERENCES `events` (`EventID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `eventparticipants_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `UniqueEventUser` (`EventID`, `UserID`) USING BTREE,
+  CONSTRAINT `attends_ibfk_1` FOREIGN KEY (`EventID`) REFERENCES `events` (`EventID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `attends_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of attends
+-- ----------------------------
+INSERT INTO `attends` VALUES (1, 1, 3, 'Confirmed', '2024-12-17 21:51:08', '2024-12-17 22:39:21');
+INSERT INTO `attends` VALUES (2, 2, 2, 'Pending', '2024-12-17 23:10:17', '2024-12-17 23:10:17');
+INSERT INTO `attends` VALUES (6, 5, 5, 'Pending', '2024-12-17 23:40:17', '2024-12-17 23:40:17');
 
 -- ----------------------------
 -- Table structure for events
@@ -50,7 +58,7 @@ CREATE TABLE `events`  (
   `CreatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`EventID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of events
@@ -68,13 +76,16 @@ INSERT INTO `events` VALUES (10, '读书会', '每月一次的读书会，分享
 INSERT INTO `events` VALUES (11, '新年晚会', '新年晚会，迎接新的一年。', '2024-01-01 19:00:00', '2024-01-01 22:00:00', '大剧院', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
 INSERT INTO `events` VALUES (12, '书法比赛', '书法比赛，弘扬传统文化。', '2024-02-15 10:00:00', '2024-02-15 16:00:00', '文化馆', 'Completed', '2024-12-15 23:44:18', '2024-12-16 23:04:51');
 INSERT INTO `events` VALUES (13, '户外徒步', '户外徒步活动，锻炼身体，享受自然。', '2024-03-10 08:00:00', '2024-03-10 17:00:00', '郊外公园', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
-INSERT INTO `events` VALUES (14, '舞蹈大赛', '舞蹈大赛，展示舞蹈才华。', '2024-04-20 14:00:00', '2024-04-20 21:00:00', '体育馆', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
-INSERT INTO `events` VALUES (15, '创业讲座', '创业讲座，分享创业经验。', '2024-05-15 13:00:00', '2024-05-15 15:00:00', '大学讲堂', 'Completed', '2024-12-15 23:44:18', '2024-12-16 23:04:51');
-INSERT INTO `events` VALUES (16, '儿童画展', '儿童画展，展示儿童绘画作品。', '2024-06-10 10:00:00', '2024-06-10 17:00:00', '少年宫', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
-INSERT INTO `events` VALUES (17, '音乐工作坊', '音乐工作坊，学习音乐制作。', '2024-07-05 09:00:00', '2024-07-05 17:00:00', '音乐教室', 'Completed', '2024-12-15 23:44:18', '2024-12-16 23:04:51');
-INSERT INTO `events` VALUES (18, '手工艺市集', '手工艺市集，展示和销售手工艺品。', '2024-08-25 10:00:00', '2024-08-25 20:00:00', '市集广场', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
-INSERT INTO `events` VALUES (19, '健康讲座', '健康讲座，分享健康知识。', '2024-09-15 11:00:00', '2024-09-15 13:00:00', '社区中心', 'Completed', '2024-12-15 23:44:18', '2024-12-16 23:04:51');
-INSERT INTO `events` VALUES (20, '电影之夜', '电影之夜，放映经典电影。', '2024-10-10 19:00:00', '2024-10-10 22:00:00', '电影院', 'Completed', '2024-12-15 23:44:18', '2024-12-16 23:04:51');
+INSERT INTO `events` VALUES (14, '舞蹈大赛', '舞蹈大赛，展示舞蹈才华。1', '2024-04-20 14:00:00', '2024-04-20 21:00:00', '体育馆', 'Progressing', '2024-12-15 23:44:18', '2024-12-17 21:02:58');
+INSERT INTO `events` VALUES (15, '创业讲座', '创业讲座，分享创业经验。24', '2024-05-15 13:00:00', '2024-05-15 15:00:00', '大学讲堂', 'Completed', '2024-12-15 23:44:18', '2024-12-17 21:04:58');
+INSERT INTO `events` VALUES (16, '儿童画展', '儿童画展，展示儿童绘画作品。1', '2024-06-10 10:00:00', '2024-06-10 17:00:00', '少年宫', 'Progressing', '2024-12-15 23:44:18', '2024-12-17 20:52:46');
+INSERT INTO `events` VALUES (17, '音乐工作坊', '音乐工作坊，学习音乐制作。12', '2024-07-05 09:00:00', '2024-07-05 17:00:00', '音乐教室', 'Completed', '2024-12-15 23:44:18', '2024-12-17 21:06:22');
+INSERT INTO `events` VALUES (18, '手工艺市集', '手工艺市集，展示和销售手工艺品。12', '2024-08-25 10:00:00', '2024-08-25 20:00:00', '市集广场', 'Progressing', '2024-12-15 23:44:18', '2024-12-17 21:00:53');
+INSERT INTO `events` VALUES (19, '健康讲座', '健康讲座，分享健康知识。221', '2024-09-15 11:00:00', '2024-09-15 13:00:00', '社区中心', 'Completed', '2024-12-15 23:44:18', '2024-12-17 21:28:28');
+INSERT INTO `events` VALUES (20, '电影之夜', '电影之夜，放映经典电影。1', '2024-10-10 19:00:00', '2024-10-10 22:00:00', '电影院', 'Completed', '2024-12-15 23:44:18', '2024-12-17 22:28:40');
+INSERT INTO `events` VALUES (21, '20周年校庆', '20周年校庆1233222', '2024-12-17 00:07:00', '2024-12-18 00:07:00', '20周年校庆', 'Progressing', '2024-12-17 00:36:04', '2024-12-17 21:12:57');
+INSERT INTO `events` VALUES (22, '12', '123', '2024-12-17 20:49:00', '2024-12-17 21:49:00', '1', 'Completed', '2024-12-17 20:49:23', '2024-12-17 21:25:05');
+INSERT INTO `events` VALUES (23, '1', '1', '2024-12-08 21:27:00', '2024-12-17 23:27:00', '1', 'Progressing', '2024-12-17 21:27:30', '2024-12-17 21:27:30');
 
 -- ----------------------------
 -- Table structure for users
