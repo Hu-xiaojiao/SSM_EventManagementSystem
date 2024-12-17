@@ -46,4 +46,8 @@ public class EventServiceImpl implements EventService {
         event.setCreatedAt(Timestamp.valueOf(dateFormat.format(new Date())));
         return eventMapper.addEvent(event);
     }
+
+    public Event findEventByEventId(String eventId) {
+        return eventMapper.findEventByEventId(eventId);
+    }
 }

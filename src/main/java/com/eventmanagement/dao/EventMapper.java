@@ -9,4 +9,6 @@ public interface EventMapper {
     Page<Event> search(Event event);
 
     Integer addEvent(Event event);
+
+    Event findEventByEventId(String eventId);
 }

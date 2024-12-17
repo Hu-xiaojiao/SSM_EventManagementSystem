@@ -9,4 +9,6 @@ public interface EventService {
     PageResult search(Event event, Integer pageNum, Integer pageSize);
 
     Integer addEvent(Event event);
+
+    Event findEventByEventId(String eventid);
 }

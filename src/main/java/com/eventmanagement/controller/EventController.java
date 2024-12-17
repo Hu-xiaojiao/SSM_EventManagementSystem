@@ -1,28 +1,21 @@
 package com.eventmanagement.controller;
 
 import com.eventmanagement.domain.Event;
-import com.eventmanagement.domain.User;
 import com.eventmanagement.entity.PageResult;
-import com.eventmanagement.entity.Result;
 import com.eventmanagement.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/event")
@@ -66,21 +59,25 @@ public class EventController {
     }
 
     @ResponseBody
-    @RequestMapping("/addEvent")
-    public ResponseEntity addEvent(String eventName, String location, String eventStartDate, String eventEndDate, String state, String eventDescription, HttpServletRequest request) {
-        Event event = new Event();
-        event.setEventName(eventName);
-        event.setLocation(location);
+    @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> addEvent(String eventName, String location, String eventStartDate, String eventEndDate, String state, String eventDescription) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Event event = new Event();
+            event.setEventName(eventName);
+            event.setLocation(location);
+            event.setEventStartDate(Timestamp.valueOf(formatTimeStamp(eventStartDate)));
+            event.setEventEndDate(Timestamp.valueOf(formatTimeStamp(eventEndDate)));
+            event.setStatus(state);
+            event.setEventDescription(eventDescription);
+            eventService.addEvent(event);
 
-        event.setEventStartDate(Timestamp.valueOf(formatTimeStamp(eventStartDate)));
-        event.setEventEndDate(Timestamp.valueOf(formatTimeStamp(eventEndDate)));
-
-        event.setStatus(state);
-        event.setEventDescription(eventDescription);
-
-        eventService.addEvent(event);
-
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+            response.put("success", true);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            response.put("errorMsg", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private String formatTimeStamp(String date) {
@@ -99,6 +96,13 @@ public class EventController {
         } else {
             return "Invalid input format";
         }
+    }
+
+    @ResponseBody
+    @RequestMapping("/findeventbyeventid")
+    public Event findeventbyeventid(String eventid) {
+        Event event = eventService.findEventByEventId(eventid);
+        return event;
     }
 
 }

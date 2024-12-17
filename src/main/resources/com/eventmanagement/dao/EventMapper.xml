@@ -20,4 +20,8 @@
         insert into Events(EventID, EventName, EventDescription, EventStartDate, EventEndDate, Location, Status, CreatedAt, UpdatedAt)
         VALUES (#{eventId}, #{eventName}, #{eventDescription}, #{eventStartDate}, #{eventEndDate}, #{location}, #{status}, #{createdAt}, #{updatedAt})
     </insert>
+    
+    <select id="findEventByEventId" parameterType="String" resultType="com.eventmanagement.domain.Event">
+#         select * from Events where eventId =
+    </select>
 </mapper>
