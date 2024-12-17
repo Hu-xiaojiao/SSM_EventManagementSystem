@@ -22,6 +22,37 @@
     </insert>
     
     <select id="findEventByEventId" parameterType="String" resultType="com.eventmanagement.domain.Event">
-#         select * from Events where eventId =
+        select * from Events where eventId = #{eventId}
     </select>
+    
+    <update id="updateEvent" parameterType="com.eventmanagement.domain.Event">
+        update events
+        <trim prefix="set" suffixOverrides=",">
+            <if test="eventName != null" >
+                EventName = #{eventName},
+            </if>
+            <if test="eventDescription != null" >
+                EventDescription = #{eventDescription},
+            </if>
+            <if test="eventStartDate != null" >
+                EventStartDate = #{eventStartDate},
+            </if>
+            <if test="eventEndDate != null" >
+                EventEndDate = #{eventEndDate},
+            </if>
+            <if test="location != null" >
+                Location = #{location},
+            </if>
+            <if test="status != null" >
+                Status = #{status},
+            </if>
+            <if test="createdAt != null" >
+                CreatedAt = #{createdAt},
+            </if>
+            <if test="updatedAt != null" >
+                UpdatedAt = #{updatedAt},
+            </if>
+        </trim>
+        where EventId = #{eventId}
+    </update>
 </mapper>

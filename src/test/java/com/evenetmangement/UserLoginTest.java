@@ -1,6 +1,8 @@
 package com.evenetmangement;
 
+import com.eventmanagement.domain.Event;
 import com.eventmanagement.domain.User;
+import com.eventmanagement.service.EventService;
 import com.eventmanagement.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +15,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class UserLoginTest {
     @Autowired
     private UserService userService;
+    private EventService eventService;
     @Test
     public void login(){
         User adminUser = new User();
         adminUser.setName("superadmin");
         adminUser.setPassword("123456");
         User user = userService.login(adminUser);
+    }
+
+    @Test
+    public void findEventByEventId(){
+        System.out.println(eventService.findEventByEventId("12").getEventName());
     }
 }

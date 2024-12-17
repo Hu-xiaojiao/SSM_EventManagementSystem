@@ -73,7 +73,7 @@ public class EventController {
             eventService.addEvent(event);
 
             response.put("success", true);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response.put("errorMsg", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,9 +100,33 @@ public class EventController {
 
     @ResponseBody
     @RequestMapping("/findeventbyeventid")
-    public Event findeventbyeventid(String eventid) {
-        Event event = eventService.findEventByEventId(eventid);
-        return event;
+    public ResponseEntity<Map<String, Object>> findeventbyeventid(String eventId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Event event = eventService.findEventByEventId(eventId);
+
+            response.put("success", true);
+            response.put("event", event);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e) {
+            response.put("errorMsg", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/updateevent")
+    public ResponseEntity<Map<String, Object>> updateEvent(Event event) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            eventService.updateEvent(event);
+
+            response.put("success", true);
+            response.put("event", event);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e) {
+            response.put("errorMsg", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

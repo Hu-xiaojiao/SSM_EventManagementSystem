@@ -10,5 +10,7 @@ public interface EventService {
 
     Integer addEvent(Event event);
 
-    Event findEventByEventId(String eventid);
+    Event findEventByEventId(String eventId);
+
+    Integer updateEvent(Event event);
 }

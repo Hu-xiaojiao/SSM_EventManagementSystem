@@ -50,4 +50,8 @@ public class EventServiceImpl implements EventService {
     public Event findEventByEventId(String eventId) {
         return eventMapper.findEventByEventId(eventId);
     }
+
+    public Integer updateEvent(Event event) {
+        return eventMapper.updateEvent(event);
+    }
 }
