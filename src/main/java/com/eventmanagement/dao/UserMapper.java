@@ -4,4 +4,6 @@ import com.eventmanagement.domain.User;
 
 public interface UserMapper {
     public User login(User user);
+
+    void updateUserInfo(User user);
 }

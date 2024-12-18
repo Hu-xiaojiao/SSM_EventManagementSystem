@@ -11,7 +11,7 @@
  Target Server Version : 80030
  File Encoding         : 65001
 
- Date: 17/12/2024 23:44:09
+ Date: 18/12/2024 22:56:42
 */
 
 SET NAMES utf8mb4;
@@ -29,19 +29,22 @@ CREATE TABLE `attends`  (
   `CreatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
   PRIMARY KEY (`AttendID`) USING BTREE,
+  UNIQUE INDEX `UniqueEventUser`(`EventID`, `UserID`) USING BTREE,
   INDEX `EventID`(`EventID`) USING BTREE,
   INDEX `UserID`(`UserID`) USING BTREE,
-  UNIQUE INDEX `UniqueEventUser` (`EventID`, `UserID`) USING BTREE,
   CONSTRAINT `attends_ibfk_1` FOREIGN KEY (`EventID`) REFERENCES `events` (`EventID`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `attends_ibfk_2` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attends
 -- ----------------------------
-INSERT INTO `attends` VALUES (1, 1, 3, 'Confirmed', '2024-12-17 21:51:08', '2024-12-17 22:39:21');
-INSERT INTO `attends` VALUES (2, 2, 2, 'Pending', '2024-12-17 23:10:17', '2024-12-17 23:10:17');
-INSERT INTO `attends` VALUES (6, 5, 5, 'Pending', '2024-12-17 23:40:17', '2024-12-17 23:40:17');
+INSERT INTO `attends` VALUES (1, 1, 3, 'Pending', '2024-12-17 21:51:08', '2024-12-18 22:48:24');
+INSERT INTO `attends` VALUES (2, 2, 2, 'Confirmed', '2024-12-17 23:10:17', '2024-12-18 00:46:46');
+INSERT INTO `attends` VALUES (39, 11, 5, 'Declined', '2024-12-18 00:08:48', '2024-12-18 22:54:43');
+INSERT INTO `attends` VALUES (41, 1, 5, 'Confirmed', '2024-12-18 20:44:08', '2024-12-18 22:04:20');
+INSERT INTO `attends` VALUES (42, 2, 5, 'Pending', '2024-12-18 20:44:12', '2024-12-18 20:44:12');
+INSERT INTO `attends` VALUES (50, 18, 2, 'Confirmed', '2024-12-18 22:51:46', '2024-12-18 22:52:13');
 
 -- ----------------------------
 -- Table structure for events
@@ -51,8 +54,8 @@ CREATE TABLE `events`  (
   `EventID` int(0) NOT NULL AUTO_INCREMENT,
   `EventName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `EventDescription` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `EventStartDate` datetime(0) NULL,
-  `EventEndDate` datetime(0) NULL,
+  `EventStartDate` datetime(0) NULL DEFAULT NULL,
+  `EventEndDate` datetime(0) NULL DEFAULT NULL,
   `Location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `Status` enum('Progressing','Completed') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `CreatedAt` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
@@ -76,16 +79,14 @@ INSERT INTO `events` VALUES (10, '读书会', '每月一次的读书会，分享
 INSERT INTO `events` VALUES (11, '新年晚会', '新年晚会，迎接新的一年。', '2024-01-01 19:00:00', '2024-01-01 22:00:00', '大剧院', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
 INSERT INTO `events` VALUES (12, '书法比赛', '书法比赛，弘扬传统文化。', '2024-02-15 10:00:00', '2024-02-15 16:00:00', '文化馆', 'Completed', '2024-12-15 23:44:18', '2024-12-16 23:04:51');
 INSERT INTO `events` VALUES (13, '户外徒步', '户外徒步活动，锻炼身体，享受自然。', '2024-03-10 08:00:00', '2024-03-10 17:00:00', '郊外公园', 'Progressing', '2024-12-15 23:44:18', '2024-12-16 23:04:40');
-INSERT INTO `events` VALUES (14, '舞蹈大赛', '舞蹈大赛，展示舞蹈才华。1', '2024-04-20 14:00:00', '2024-04-20 21:00:00', '体育馆', 'Progressing', '2024-12-15 23:44:18', '2024-12-17 21:02:58');
-INSERT INTO `events` VALUES (15, '创业讲座', '创业讲座，分享创业经验。24', '2024-05-15 13:00:00', '2024-05-15 15:00:00', '大学讲堂', 'Completed', '2024-12-15 23:44:18', '2024-12-17 21:04:58');
-INSERT INTO `events` VALUES (16, '儿童画展', '儿童画展，展示儿童绘画作品。1', '2024-06-10 10:00:00', '2024-06-10 17:00:00', '少年宫', 'Progressing', '2024-12-15 23:44:18', '2024-12-17 20:52:46');
-INSERT INTO `events` VALUES (17, '音乐工作坊', '音乐工作坊，学习音乐制作。12', '2024-07-05 09:00:00', '2024-07-05 17:00:00', '音乐教室', 'Completed', '2024-12-15 23:44:18', '2024-12-17 21:06:22');
-INSERT INTO `events` VALUES (18, '手工艺市集', '手工艺市集，展示和销售手工艺品。12', '2024-08-25 10:00:00', '2024-08-25 20:00:00', '市集广场', 'Progressing', '2024-12-15 23:44:18', '2024-12-17 21:00:53');
-INSERT INTO `events` VALUES (19, '健康讲座', '健康讲座，分享健康知识。221', '2024-09-15 11:00:00', '2024-09-15 13:00:00', '社区中心', 'Completed', '2024-12-15 23:44:18', '2024-12-17 21:28:28');
-INSERT INTO `events` VALUES (20, '电影之夜', '电影之夜，放映经典电影。1', '2024-10-10 19:00:00', '2024-10-10 22:00:00', '电影院', 'Completed', '2024-12-15 23:44:18', '2024-12-17 22:28:40');
-INSERT INTO `events` VALUES (21, '20周年校庆', '20周年校庆1233222', '2024-12-17 00:07:00', '2024-12-18 00:07:00', '20周年校庆', 'Progressing', '2024-12-17 00:36:04', '2024-12-17 21:12:57');
-INSERT INTO `events` VALUES (22, '12', '123', '2024-12-17 20:49:00', '2024-12-17 21:49:00', '1', 'Completed', '2024-12-17 20:49:23', '2024-12-17 21:25:05');
-INSERT INTO `events` VALUES (23, '1', '1', '2024-12-08 21:27:00', '2024-12-17 23:27:00', '1', 'Progressing', '2024-12-17 21:27:30', '2024-12-17 21:27:30');
+INSERT INTO `events` VALUES (14, '舞蹈大赛', '舞蹈大赛，展示舞蹈才华。', '2024-04-20 14:00:00', '2024-04-20 21:00:00', '体育馆', 'Progressing', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (15, '创业讲座', '创业讲座，分享创业经验。', '2024-05-15 13:00:00', '2024-05-15 15:00:00', '大学讲堂', 'Completed', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (16, '儿童画展', '儿童画展，展示儿童绘画作品。', '2024-06-11 10:00:00', '2024-06-12 17:00:00', '少年宫', 'Progressing', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (17, '音乐工作坊', '音乐工作坊，学习音乐制作。', '2024-07-05 09:00:00', '2024-07-05 17:00:00', '音乐教室', 'Completed', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (18, '手工艺市集', '手工艺市集，展示和销售手工艺品。', '2024-08-25 10:00:00', '2024-08-25 20:00:00', '市集广场', 'Progressing', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (19, '健康讲座', '健康讲座，分享健康知识。', '2024-09-15 11:00:00', '2024-09-15 13:00:00', '社区中心', 'Completed', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (20, '电影之夜', '电影之夜，放映经典电影。', '2024-10-10 19:00:00', '2024-10-10 22:00:00', '电影院', 'Completed', '2024-12-15 23:44:18', '2024-12-18 22:44:19');
+INSERT INTO `events` VALUES (25, '20周年校庆分会场', '建校20年，大家聚在一起，相互祝福。', '2024-12-19 22:47:22', '2024-12-20 22:47:25', '书山馆东侧', 'Completed', '2024-12-18 22:47:48', '2024-12-18 22:48:08');
 
 -- ----------------------------
 -- Table structure for users
@@ -107,11 +108,11 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'superadmin', 'admin@em.com', '123456', 'Admin', '2024-12-15 22:38:52', 0, '2024-12-15 23:41:36');
-INSERT INTO `users` VALUES (2, 'zhangsan', 'zhangsan@em.com', '123456', 'Admin', '2024-12-15 23:41:15', 0, '2024-12-16 22:55:32');
-INSERT INTO `users` VALUES (3, 'lisi', 'lisi@em.com', '123456', 'Admin', '2024-12-15 23:42:05', 0, '2024-12-16 22:55:32');
-INSERT INTO `users` VALUES (4, 'wangwu', 'wangwu@em.com', '123456', 'Participant', '2024-12-15 23:42:21', 0, '2024-12-16 22:55:32');
-INSERT INTO `users` VALUES (5, 'zhaoliu', 'zhaoliu@em.com', '123456', 'Participant', '2024-12-15 23:42:54', 0, '2024-12-16 21:02:46');
-INSERT INTO `users` VALUES (7, 'sunqi', 'sunqi@em.com', '123456', 'Participant', '2024-12-15 23:43:14', 0, '2024-12-15 23:43:15');
+INSERT INTO `users` VALUES (1, 'superadmin', 'admin123@qq.com', '123456', 'Admin', '2024-12-15 22:38:52', 0, '2024-12-18 22:49:03');
+INSERT INTO `users` VALUES (2, 'zhangsan', 'zhangsan@qq.com', '123456', 'Participant', '2024-12-15 23:41:15', 0, '2024-12-18 22:56:18');
+INSERT INTO `users` VALUES (3, 'lisi', 'lisi@qq.com', '123456', 'Admin', '2024-12-15 23:42:05', 0, '2024-12-18 22:56:18');
+INSERT INTO `users` VALUES (4, 'wangwu', 'wangwu@qq.com', '123456', 'Admin', '2024-12-15 23:42:21', 0, '2024-12-18 22:56:18');
+INSERT INTO `users` VALUES (5, 'zhaoliu', 'zhaoliu@qq.com', '123456', 'Participant', '2024-12-15 23:42:54', 0, '2024-12-18 22:56:18');
+INSERT INTO `users` VALUES (7, 'sunqi', 'sunqi@qq.com', '123456', 'Participant', '2024-12-15 23:43:14', 0, '2024-12-18 22:56:18');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -3,12 +3,17 @@ package com.eventmanagement.controller;
 import com.eventmanagement.domain.User;
 import com.eventmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -68,5 +73,21 @@ public class UserController {
         modelAndView.addObject("user", user);
         modelAndView.setViewName("forward:/admin/info.jsp");
         return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateUserInfo")
+    public ResponseEntity<Map<String, Object>> updateUserInfo(User user) {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            userService.updateUserInfo(user);
+
+            response.put("status", "success");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e) {
+            response.put("status", "error");
+            response.put("msg", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

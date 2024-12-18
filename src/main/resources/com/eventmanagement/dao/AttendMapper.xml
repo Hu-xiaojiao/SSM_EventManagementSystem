@@ -9,6 +9,9 @@
         from attends a
         join events e on e.EventID = a.EventID
         join users u on u.UserID = a.UserID
+        <where>
+            <if test="userId != null and userId != 0">AND a.userId = #{userId}</if>
+        </where>
     </select>
 
     <select id="findAttendByAttendId" parameterType="String" resultType="com.eventmanagement.domain.Attend">
@@ -29,4 +32,8 @@
         </trim>
         where AttendId = #{attendId}
     </update>
+
+    <delete id="delAttend" parameterType="String">
+        delete from Attends where attendId = #{attendId}
+    </delete>
 </mapper>

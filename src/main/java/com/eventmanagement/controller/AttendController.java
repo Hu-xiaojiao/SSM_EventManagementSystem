@@ -1,6 +1,7 @@
 package com.eventmanagement.controller;
 
 import com.eventmanagement.domain.Attend;
+import com.eventmanagement.domain.User;
 import com.eventmanagement.entity.PageResult;
 import com.eventmanagement.service.AttendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,12 @@ public class AttendController {
         if (pageSize == null) {
             pageSize = 10;
         }
+        System.out.println(attend.getUserId());
         PageResult pageResult = attendService.search(attend, pageNum, pageSize);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("attends.jsp");
         //将查询到的数据存放在 ModelAndView的对象中
         modelAndView.addObject("pageResult", pageResult);
-        System.out.println(pageResult.getRows());
         //将查询的参数返回到页面，用于回显到查询的输入框中
         modelAndView.addObject("search", attend);
         //将当前页码返回到页面，用于分页插件的分页显示
@@ -116,7 +117,50 @@ public class AttendController {
             response.put("errorMsg", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
+    @RequestMapping("/myattend")
+    public ModelAndView myAttend(Integer pageNum, Integer pageSize,HttpServletRequest request) {
+        if (pageNum == null) {
+        pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 10;
+        }
 
+        User u = (User) request.getSession().getAttribute("USER_SESSION");
+        System.out.println(u.getUserId());
+
+        Attend attend = new Attend();
+        attend.setUserId(u.getUserId());
+
+        PageResult pageResult = attendService.search(attend, pageNum, pageSize);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("myattend.jsp");
+        //将查询到的数据存放在 ModelAndView的对象中
+        modelAndView.addObject("pageResult", pageResult);
+        //将查询的参数返回到页面，用于回显到查询的输入框中
+        modelAndView.addObject("search", attend);
+        //将当前页码返回到页面，用于分页插件的分页显示
+        modelAndView.addObject("pageNum", pageNum);
+        //将当前查询的控制器路径返回到页面，页码变化时继续向该路径发送请求
+        modelAndView.addObject("gourl", request.getRequestURI());
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping("/delattend")
+    public ResponseEntity<Map<String, Object>> delAttend(String attendId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            attendService.delAttend(attendId);
+
+            response.put("success", true);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("errorMsg", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

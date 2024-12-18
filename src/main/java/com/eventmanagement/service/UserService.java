@@ -4,4 +4,6 @@ import com.eventmanagement.domain.User;
 
 public interface UserService {
     User login(User user);
+
+    void updateUserInfo(User user);
 }

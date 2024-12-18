@@ -13,4 +13,19 @@
     <context:component-scan base-package="com.eventmanagement.controller"/>
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
+
+    <!--配置权限拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--            配置对那些资源拦截-->
+            <mvc:mapping path="/**"/>
+            <!--            配置对哪些资源不拦截-->
+            <mvc:exclude-mapping path="/admin/login"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/logout"/>
+            <mvc:exclude-mapping path="/index.jsp" />
+            <mvc:exclude-mapping path="/js/**"/>
+            <bean class="com.eventmanagement.interceptor.ResourcesInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>

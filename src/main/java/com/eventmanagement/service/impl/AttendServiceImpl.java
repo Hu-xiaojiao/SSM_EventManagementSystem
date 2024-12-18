@@ -40,4 +40,8 @@ public class AttendServiceImpl implements AttendService {
     public Integer updateAttend(Attend attend) {
         return attendMapper.updateAttend(attend);
     }
+
+    public void delAttend(String attendId) {
+        attendMapper.delAttend(attendId);
+    }
 }

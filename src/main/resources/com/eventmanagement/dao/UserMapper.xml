@@ -6,4 +6,20 @@
     <select id="login" parameterType="com.eventmanagement.domain.User" resultType="com.eventmanagement.domain.User">
         select * from Users where Name = #{name} and Password = #{password}
     </select>
+    
+    <update id="updateUserInfo" parameterType="com.eventmanagement.domain.User">
+        update users
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                Name = #{name},
+            </if>
+            <if test="email != null and email != ''">
+                Email = #{email},
+            </if>
+            <if test="password != null and password != ''">
+                Password = #{password},
+            </if>
+        </trim>
+        where UserId = #{userId}
+    </update>
 </mapper>

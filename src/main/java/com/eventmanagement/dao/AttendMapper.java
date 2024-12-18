@@ -11,4 +11,6 @@ public interface AttendMapper {
     Integer updateAttend(Attend attend);
 
     Page<Attend> search(Attend attend);
+
+    void delAttend(String attendId);
 }

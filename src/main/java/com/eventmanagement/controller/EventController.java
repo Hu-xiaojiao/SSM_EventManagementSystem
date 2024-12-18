@@ -66,8 +66,8 @@ public class EventController {
             Event event = new Event();
             event.setEventName(eventName);
             event.setLocation(location);
-            event.setEventStartDate(Timestamp.valueOf(formatTimeStamp(eventStartDate)));
-            event.setEventEndDate(Timestamp.valueOf(formatTimeStamp(eventEndDate)));
+            event.setEventStartDate(Timestamp.valueOf(eventStartDate));
+            event.setEventEndDate(Timestamp.valueOf(eventEndDate));
             event.setStatus(state);
             event.setEventDescription(eventDescription);
             eventService.addEvent(event);
@@ -77,24 +77,6 @@ public class EventController {
         } catch (Exception e) {
             response.put("errorMsg", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    private String formatTimeStamp(String date) {
-        // 检查输入长度是否为16
-        if (date.length() == 16) {
-            // 分离日期和时间部分
-            String datePart = date.substring(0, 10);
-            String timePart = date.substring(11, 16);
-
-            // 将时间部分补全到完整格式
-            String formattedTimePart = timePart + ":00";
-
-            // 拼接成最终格式
-            String formattedTimestamp = datePart + " " + formattedTimePart;
-            return formattedTimestamp;
-        } else {
-            return "Invalid input format";
         }
     }
 

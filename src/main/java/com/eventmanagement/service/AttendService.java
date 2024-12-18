@@ -12,4 +12,6 @@ public interface AttendService {
     Integer updateAttend(Attend attend);
 
     void addAttend(String eventId, String userId);
+
+    void delAttend(String attendId);
 }
