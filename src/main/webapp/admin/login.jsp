@@ -16,14 +16,21 @@
             html,
             body {
                 width: 100%;
-                height: 100%;
+                height: 100vh;
                 margin: 0;
                 padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("${pageContext.request.contextPath}/js/bg.jpg");
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
             }
 
-            h1 {
-                color: rgb(128, 128, 128);
-                text-align: center;
+            h1, h4 {
+                color: rgb(80, 80, 80);
+                /*text-align: center;*/
             }
 
             a:link,
@@ -34,15 +41,12 @@
                 text-decoration: none;
             }
 
-            form {
+            .form {
                 width: 400px;
                 min-width: 400px;
                 position: absolute;
-                left: 40%;
-                top: 15%;
-                margin: 0;
                 padding: 30px;
-                background-color: white;
+                background-color: rgba(255, 255, 255, 0.7);
                 border: 2px solid rgba(128, 128, 128, 0.2);
                 border-radius: 10px;
             }
@@ -53,26 +57,30 @@
         </style>
 
         <body>
-            <form action="${pageContext.request.contextPath}/user/login" id="loginform">
-                <div>
-                    <h1>用户登录</h1>
-                    <span style="color: red">${msg}</span>
-                </div>
-                <div>
-                    <input class="easyui-textbox"
-                        data-options="iconCls:'icon-man',iconWidth:30,iconAlign:'left',prompt:'用户名'"
-                        style="width:100%;height:35px;" name="name" />
-                </div>
-                <div>
-                    <input class="easyui-passwordbox" data-options="iconWidth:30,iconAlign:'left',prompt:'密码'"
-                        style="width:100%;height:35px;" name="password" />
-                </div>
-                <br>
-                <div>
-                    <input class="easyui-linkbutton" type="submit" value="登陆" style="width:100%;height:35px;"
-                        href='javascript:document:loginform.submit();' />
-                </div>
-            </form>
+            <div class="form">
+                <form action="${pageContext.request.contextPath}/user/login" id="loginform">
+                    <div>
+                        <h1>活动管理审批系统</h1>
+                        <h4>| 用户登录</h4>
+                        <hr>
+                        <span style="color: red">${msg}</span>
+                    </div>
+                    <div>
+                        <input class="easyui-textbox"
+                               data-options="iconCls:'icon-man',iconWidth:30,iconAlign:'left',prompt:'用户名'"
+                               style="width:100%;height:35px;" name="name" />
+                    </div>
+                    <div>
+                        <input class="easyui-passwordbox"  data-options="iconAlign:'left',prompt:'密码'"
+                               style="width:100%;height:35px;" name="password" />
+                    </div>
+                    <br>
+                    <div>
+                        <input class="easyui-linkbutton" type="submit" value="登陆" style="width:100%;height:35px;"
+                               href='javascript:document:loginform.submit();' />
+                    </div>
+                </form>
+            </div>
         </body>
 
         </html>

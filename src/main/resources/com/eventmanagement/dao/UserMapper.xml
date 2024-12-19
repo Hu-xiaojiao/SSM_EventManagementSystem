@@ -22,4 +22,40 @@
         </trim>
         where UserId = #{userId}
     </update>
+
+    <select id="search" parameterType="com.eventmanagement.domain.User" resultType="com.eventmanagement.domain.User">
+        select * from Users order by CreatedAt desc
+    </select>
+
+    <insert id="addUser" parameterType="com.eventmanagement.domain.User">
+        insert into Users(UserID, Name, Email, Password, Role)
+        VALUES (#{userId}, #{name}, #{email}, #{password}, #{role})
+    </insert>
+
+    <select id="findUserByUserId" parameterType="String" resultType="com.eventmanagement.domain.User">
+        select * from Users where UserId = #{userId}
+    </select>
+
+    <update id="updateUser" parameterType="com.eventmanagement.domain.User">
+        update Users
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="email != null" >
+                email = #{email},
+            </if>
+            <if test="password != null" >
+                password = #{password},
+            </if>
+            <if test="role != null" >
+                role = #{role},
+            </if>
+        </trim>
+        where userId = #{userId}
+    </update>
+
+    <delete id="delUser" parameterType="String">
+        delete from Users where userId = #{userId}
+    </delete>
 </mapper>

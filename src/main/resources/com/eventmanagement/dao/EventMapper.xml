@@ -55,4 +55,8 @@
         </trim>
         where EventId = #{eventId}
     </update>
+
+    <delete id="delEvent" parameterType="String">
+        delete from Events where eventId = #{eventId}
+    </delete>
 </mapper>

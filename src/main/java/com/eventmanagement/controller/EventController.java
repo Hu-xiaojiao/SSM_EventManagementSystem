@@ -112,5 +112,20 @@ public class EventController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping("/delevent")
+    public ResponseEntity<Map<String, Object>> delEvnent(String eventId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            eventService.delEvent(eventId);
+
+            response.put("success", true);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response.put("errorMsg", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

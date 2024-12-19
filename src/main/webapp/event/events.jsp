@@ -27,7 +27,7 @@
                 <th field="5" width="100">地点</th>
                 <th field="6" width="200">创建时间</th>
                 <th field="7" width="75">状态</th>
-                <th field="8" width="75">操作</th>
+                <th field="8" width="150">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -50,6 +50,7 @@
                     <c:if test="${USER_SESSION.role == 'Admin'}">
                         <td>
                             <button onclick="editEvent(${event.eventId})">修改</button>
+                            <button onclick="delEvent(${event.eventId})">删除</button>
                         </td>
                     </c:if>
                     <c:if test="${USER_SESSION.role != 'Admin'}">
@@ -176,6 +177,7 @@
         singleSelect: true, //是否单选
         pagination: true, //分页控件
         rownumbers: true, //行号
+        <c:if test="${USER_SESSION.role == 'Admin'}">
         toolbar: [{
             text: '添加',
             iconCls: 'icon-add',
@@ -185,6 +187,7 @@
                 url = 'addEvent';
             },
         }],
+        </c:if>
     });
 
     function changePage(pageNo, pageSize) {
@@ -371,6 +374,35 @@
                 })
             }
         });
+    }
+    
+    function delEvent(eventId) {
+        $.messager.confirm('确认删除', '确定要删除这个活动吗？', function (r) {
+            if (r) {
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/event/delevent",
+                    data: { eventId: eventId },
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        if (data.success) {
+                            $.messager.alert('成功', '删除成功', 'info', () => {
+                                location.reload()
+                            });
+                        } else {
+                            $.messager.alert('错误', data.errorMsg, 'error', () => {
+                                location.reload()
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $.messager.alert('错误', JSON.parse(xhr.responseText)['errorMsg'], 'error');
+                    }
+                })
+            }
+        });
+        
     }
 </script>
 

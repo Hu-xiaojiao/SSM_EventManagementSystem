@@ -54,4 +54,8 @@ public class EventServiceImpl implements EventService {
     public Integer updateEvent(Event event) {
         return eventMapper.updateEvent(event);
     }
+
+    public void delEvent(String eventId) {
+        eventMapper.delEvent(eventId);
+    }
 }

@@ -30,7 +30,7 @@
             <a href="${pageContext.request.contextPath}/attend/search" target="iframe">全部报名</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/user/info" target="iframe">个人信息</a>
+            <a href="${pageContext.request.contextPath}/user/search" target="iframe">账号管理</a>
         </li>
     </ul>
 </div>

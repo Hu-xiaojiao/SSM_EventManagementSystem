@@ -13,4 +13,6 @@ public interface EventMapper {
     Event findEventByEventId(String eventId);
 
     Integer updateEvent(Event event);
+
+    void delEvent(String eventId);
 }

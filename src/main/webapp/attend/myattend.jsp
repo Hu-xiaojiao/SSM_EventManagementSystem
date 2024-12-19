@@ -113,7 +113,7 @@
                         if (r) {
                             $.ajax({
                                 url: "${pageContext.request.contextPath}/attend/delattend",
-                                data: { attendId: attendId },
+                                data: {attendId: attendId},
                                 type: "POST",
                                 dataType: "json",
                                 async: false,
